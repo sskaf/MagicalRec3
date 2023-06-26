@@ -87,8 +87,14 @@
         }
     };
 
-    [context performBlockAndWait:requestBlock];
-    
+    if ([context concurrencyType] == NSConfinementConcurrencyType)
+    {
+        requestBlock();
+    }
+    else
+    {
+        [context performBlockAndWait:requestBlock];
+    }
     return results;
 }
 
@@ -128,24 +134,20 @@
 
 + (instancetype)MR_createEntityWithDescription:(NSEntityDescription *)entityDescription inContext:(NSManagedObjectContext *)context
 {
-    __block NSManagedObject *managedObject;
+    NSEntityDescription *entity = entityDescription;
 
-    [context performBlockAndWait:^{
-        NSEntityDescription *entity = entityDescription;
+    if (!entity)
+    {
+        entity = [self MR_entityDescriptionInContext:context];
+    }
 
-        if (!entity)
-        {
-            entity = [self MR_entityDescriptionInContext:context];
-        }
+    //    [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+    NSManagedObject *managedObject = [[self alloc] initWithEntity:entity insertIntoManagedObjectContext:context];
 
-        //    [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
-        managedObject = [[self alloc] initWithEntity:entity insertIntoManagedObjectContext:context];
-
-        if ([managedObject respondsToSelector:@selector(MR_awakeFromCreation)])
-        {
-            [managedObject MR_awakeFromCreation];
-        }
-    }];
+    if ([managedObject respondsToSelector:@selector(MR_awakeFromCreation)])
+    {
+        [managedObject MR_awakeFromCreation];
+    }
 
     return managedObject;
 }

@@ -45,4 +45,11 @@
     return _context;
 }
 
+- (NSManagedObjectContext *)newConfinementContext
+{
+    NSManagedObjectContext *context = [super createConfinementContext];
+    [context setParentContext:[self savingContext]];
+    return context;
+}
+
 @end

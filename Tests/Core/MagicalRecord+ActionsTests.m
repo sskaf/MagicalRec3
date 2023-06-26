@@ -174,9 +174,7 @@
         NSManagedObject *insertedObject = [SingleEntityWithNoRelationships MR_createEntityInContext:localContext];
         XCTAssertTrue(insertedObject.hasChanges);
 
-        [localContext performBlockAndWait:^{
-            [localContext obtainPermanentIDsForObjects:@[ insertedObject ] error:nil];
-        }];
+        [localContext obtainPermanentIDsForObjects:@[ insertedObject ] error:nil];
         objectId = [insertedObject objectID];
     }
         completion:^(BOOL success, __unused NSError *error) {

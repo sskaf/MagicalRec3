@@ -24,7 +24,7 @@
 
 - (void)reset;
 
-- (nonnull NSManagedObjectContext *)newPrivateContext;
+- (nonnull NSManagedObjectContext *)newConfinementContext;
 
 - (void)setModelFromClass:(nonnull Class)modelClass;
 - (void)setModelNamed:(nonnull NSString *)modelName;

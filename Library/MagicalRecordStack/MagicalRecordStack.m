@@ -116,18 +116,18 @@ static MagicalRecordStack *defaultStack;
     return _stackName;
 }
 
-- (NSManagedObjectContext *)createPrivateContext
+- (NSManagedObjectContext *)createConfinementContext
 {
-    NSManagedObjectContext *context = [NSManagedObjectContext MR_privateQueueContext];
+    NSManagedObjectContext *context = [NSManagedObjectContext MR_confinementContext];
     NSString *workingName = [[context MR_workingName] stringByAppendingFormat:@" (%@)", [self stackName]];
     [context MR_setWorkingName:workingName];
     [context setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
     return context;
 }
 
-- (NSManagedObjectContext *)newPrivateContext
+- (NSManagedObjectContext *)newConfinementContext
 {
-    NSManagedObjectContext *context = [self createPrivateContext];
+    NSManagedObjectContext *context = [self createConfinementContext];
 
     return context;
 }

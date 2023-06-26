@@ -14,8 +14,7 @@
 - (void)testCanNotifyDefaultContextOnSave
 {
     NSManagedObjectContext *stackContext = self.stack.context;
-    NSManagedObjectContext *testContext = [NSManagedObjectContext MR_privateQueueContext];
-    testContext.parentContext = stackContext;
+    NSManagedObjectContext *testContext = [NSManagedObjectContext MR_confinementContextWithParent:stackContext];
     XCTAssertEqualObjects(testContext.parentContext, stackContext);
 }
 

@@ -109,7 +109,6 @@
     NSManagedObjectModel *targetModel = [self targetModel];
     NSDictionary *sourceMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:type
                                                                                               URL:sourceStoreURL
-                                                                                          options:nil
                                                                                             error:error];
 
     if (nil == sourceMetadata)
